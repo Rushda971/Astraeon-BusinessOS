@@ -1,0 +1,28 @@
+// Prisma schema: the single source of truth for the SQLite data model.
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Roles are kept as an enum so authorization can grow without changing the API.
+enum Role {
+  OWNER
+  MANAGER
+  STAFF
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  fullName  String
+  email     String   @unique
+  password  String
+  role      Role     @default(OWNER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
