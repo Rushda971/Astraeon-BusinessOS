@@ -15,4 +15,4 @@ export const generateToken = (user) => jwt.sign(
   { expiresIn: process.env.JWT_EXPIRES_IN || "7d" },
 );
 
-export const verifyToken = (token) => jwt.verify(token, getJwtSecret());
+export const verifyToken = (token) => jwt.verify(token, getJwtSecret(), { algorithms: ["HS256"] });

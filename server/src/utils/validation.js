@@ -6,7 +6,8 @@ const normalizeEmail = (email) => (typeof email === "string" ? email.trim().toLo
 
 const ensureEmail = (email) => {
   // Deliberately simple validation; the database remains the final uniqueness authority.
-  if (!/^\S+@\S+\.\S+$/.test(email)) {
+  const [localPart, domain = ""] = email.split("@");
+  if (!localPart || !domain || domain.split(".").some((part) => part.length === 0) || !domain.includes(".")) {
     throw new AppError("Provide a valid email address.", 400);
   }
 };
@@ -51,4 +52,25 @@ export const validateLoginInput = (body) => {
   }
 
   return { email, password: body.password };
+};
+
+export const validateOtpInput = (body) => {
+  if (!isPlainObject(body)) throw new AppError("Request body must be a JSON object.", 400);
+  const email = normalizeEmail(body.email);
+  ensureEmail(email);
+  if (!/^\d{6}$/.test(body.otp)) throw new AppError("OTP must be a 6-digit code.", 400);
+  return { email, otp: body.otp };
+};
+
+export const validateForgotPasswordInput = (body) => {
+  if (!isPlainObject(body)) throw new AppError("Request body must be a JSON object.", 400);
+  const email = normalizeEmail(body.email);
+  ensureEmail(email);
+  return { email };
+};
+
+export const validateResetPasswordInput = (body) => {
+  const { email, otp } = validateOtpInput(body);
+  ensurePassword(body.password);
+  return { email, otp, password: body.password };
 };

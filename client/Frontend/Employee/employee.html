@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Management | Astraeon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="employee.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Astraeon / Workforce</p>
+          <h1>Employee Management</h1>
+          <p class="subtitle">Manage your restaurant workforce</p>
+        </div>
+        <button class="button button-primary" id="add-employee" type="button">
+          <span aria-hidden="true">+</span> Add employee
+        </button>
+      </header>
+
+      <section class="statistics" aria-label="Employee statistics">
+        <article class="stat-card"><span>Total employees</span><strong id="total-count">0</strong><small>Across your operation</small></article>
+        <article class="stat-card"><span>Active employees</span><strong id="active-count">0</strong><small>Currently on roster</small></article>
+        <article class="stat-card"><span>Managers</span><strong id="manager-count">0</strong><small>Leadership team</small></article>
+        <article class="stat-card"><span>Inactive employees</span><strong id="inactive-count">0</strong><small>Archived from roster</small></article>
+      </section>
+
+      <section class="directory" aria-label="Employee directory">
+        <div class="directory-toolbar">
+          <label class="search" for="employee-search"><span aria-hidden="true">⌕</span><input id="employee-search" type="search" placeholder="Search name, email, or role" autocomplete="off" /></label>
+          <span class="result-count" id="result-count"></span>
+        </div>
+        <p class="message" id="page-message" role="alert" hidden></p>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Salary</th><th>Joining date</th><th>Status</th><th><span class="sr-only">Actions</span></th></tr></thead>
+            <tbody id="employee-table"></tbody>
+          </table>
+        </div>
+        <div class="empty-state" id="empty-state" hidden><strong id="empty-title">No employees yet</strong><p id="empty-copy">Add your first team member to begin building your workforce.</p></div>
+        <div class="loading" id="loading" hidden><span></span> Loading employees</div>
+      </section>
+    </main>
+
+    <div class="modal-backdrop" id="employee-modal" hidden>
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-header"><div><p class="eyebrow" id="modal-kicker">New roster entry</p><h2 id="modal-title">Add employee</h2></div><button class="icon-button" id="close-modal" type="button" aria-label="Close dialog">×</button></div>
+        <form id="employee-form" novalidate>
+          <div class="form-grid">
+            <label>Name<input name="name" required minlength="2" maxlength="100" /></label>
+            <label>Email<input name="email" type="email" required /></label>
+            <label>Phone<input name="phone" required inputmode="tel" /></label>
+            <label>Role<input name="role" required maxlength="60" placeholder="e.g. Floor Manager" /></label>
+            <label>Monthly salary<input name="salary" type="number" min="1" step="0.01" required /></label>
+            <label>Joining date<input name="joiningDate" type="date" required /></label>
+            <label>Status<select name="status"><option value="ACTIVE">Active</option><option value="INACTIVE">Inactive</option></select></label>
+          </div>
+          <p class="form-error" id="form-error" role="alert" hidden></p>
+          <div class="modal-actions"><button class="button button-quiet" id="cancel-modal" type="button">Cancel</button><button class="button button-primary" id="save-employee" type="submit">Save employee</button></div>
+        </form>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" id="view-modal" hidden>
+      <section class="modal modal-small" role="dialog" aria-modal="true" aria-labelledby="view-title">
+        <div class="modal-header"><div><p class="eyebrow">Team profile</p><h2 id="view-title">Employee details</h2></div><button class="icon-button" data-close-view type="button" aria-label="Close dialog">×</button></div>
+        <dl class="employee-details" id="employee-details"></dl>
+        <div class="modal-actions"><button class="button button-primary" data-close-view type="button">Close</button></div>
+      </section>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    <script src="../shared/api.js"></script>
+    <script src="employee.js"></script>
+  </body>
+</html>

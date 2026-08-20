@@ -1,9 +1,10 @@
 const form = document.querySelector("#login-form");
 const message = document.querySelector("#form-message");
+const { request, setToken } = window.AstraeonApi;
 
 document.querySelector("#year").textContent = new Date().getFullYear();
 
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   if (!form.checkValidity()) {
@@ -11,6 +12,20 @@ form.addEventListener("submit", (event) => {
     return;
   }
 
-  // Authentication API wiring belongs here once the backend endpoint is available.
-  message.textContent = "Your sign-in details are ready to be securely verified.";
+  const button = form.querySelector("button");
+  button.disabled = true;
+  message.textContent = "Signing in...";
+  try {
+    const payload = await request("/api/auth/login", {
+      method: "POST",
+      body: JSON.stringify(Object.fromEntries(new FormData(form))),
+    });
+    setToken(payload.data.token);
+    message.textContent = "Login successful.";
+    window.location.href = "../../Employee/employee.html";
+  } catch (error) {
+    message.textContent = error.message;
+  } finally {
+    button.disabled = false;
+  }
 });

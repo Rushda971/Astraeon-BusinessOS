@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create account | Astraeon BusinessOS</title>
+    <link rel="stylesheet" href="../Login/login.css" />
+  </head>
+  <body>
+    <main class="auth-page">
+      <section class="auth-card" aria-labelledby="register-title">
+        <a class="brand" href="../Login/login.html"><span class="brand-mark" aria-hidden="true">A</span><span class="brand-name">ASTRAEON <small>BUSINESSOS</small></span></a>
+        <header class="auth-heading"><p class="eyebrow">GET STARTED</p><h1 id="register-title">Create account</h1><p>Set up your Astraeon BusinessOS owner account.</p></header>
+        <form class="auth-form" id="register-form" novalidate>
+          <label for="fullName">Full name</label><input id="fullName" name="fullName" autocomplete="name" minlength="2" maxlength="100" required />
+          <label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" required />
+          <label for="password">Password</label><input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required />
+          <label for="confirmPassword">Confirm password</label><input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required />
+          <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+          <button class="primary-button" type="submit">Create account <span aria-hidden="true">→</span></button>
+        </form>
+        <a class="text-link" href="../Login/login.html">Already have an account? Sign in</a>
+      </section>
+    </main>
+    <script src="../../shared/api.js"></script>
+    <script src="register.js"></script>
+  </body>
+</html>

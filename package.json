@@ -1,0 +1,7 @@
+{
+  "name": "astraeon-businessos",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix server run dev"
+  }
+}
