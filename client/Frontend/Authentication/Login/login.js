@@ -22,7 +22,7 @@ form.addEventListener("submit", async (event) => {
     });
     setToken(payload.data.token);
     message.textContent = "Login successful.";
-    window.location.href = "../../Employee/employee.html";
+    window.location.href = "../../Dashboard/dashboard.html";
   } catch (error) {
     message.textContent = error.message;
   } finally {

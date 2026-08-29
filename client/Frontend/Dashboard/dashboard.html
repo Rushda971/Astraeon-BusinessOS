@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | Astraeon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="dashboard.css" />
+    <link rel="stylesheet" href="../shared/app.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar" id="sidebar" aria-label="Dashboard navigation">
+        <a class="brand" href="dashboard.html"><span class="brand-mark">A</span><span>ASTRAEON<small>BUSINESSOS</small></span></a>
+        <div class="sidebar-label">Workspace</div>
+        <nav class="side-nav" aria-label="Primary navigation">
+          <a class="active" href="dashboard.html"><span class="nav-icon">⌂</span>Overview</a>
+          <span class="nav-link muted-link"><span class="nav-icon">↗</span>Sales</span>
+          <span class="nav-link muted-link"><span class="nav-icon">▤</span>Orders</span>
+          <a class="nav-link" href="../Inventory/inventory.html"><span class="nav-icon">▥</span>Inventory</a>
+          <a class="nav-link" href="../Employee/employee.html"><span class="nav-icon">♙</span>Employees</a>
+          <span class="nav-link muted-link"><span class="nav-icon">◌</span>Reports</span>
+          <span class="nav-link muted-link"><span class="nav-icon">⚙</span>Settings</span>
+        </nav>
+        <div class="sidebar-footer"><span class="sidebar-label">Account</span><button class="logout" id="logout" type="button"><span class="nav-icon">↪</span>Sign out</button></div>
+      </aside>
+
+      <section class="content-area">
+        <header class="topbar">
+          <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Toggle navigation">☰</button>
+          <div class="breadcrumb"><span>Astraeon Restaurant</span><b>/</b><strong>Overview</strong></div>
+          <div class="top-actions"><label class="search"><span>⌕</span><input type="search" placeholder="Search workspace" aria-label="Search workspace" /></label><button class="icon-button" type="button" aria-label="Notifications">♧<i></i></button><div class="avatar" id="avatar">—</div></div>
+        </header>
+
+        <div class="page-content">
+          <section class="welcome reveal">
+            <div><p class="eyebrow">Restaurant operations <span class="date-divider">·</span> <span id="current-date">Monday, August 23, 2026</span></p><h1>Good evening, <span id="user-name">there</span>.</h1><p class="subtitle">Here is what is happening across your restaurant today.</p></div>
+            <a class="button" href="../Employee/employee.html"><span>+</span> Quick action</a>
+          </section>
+
+          <p class="message" id="page-message" role="alert" hidden></p>
+          <section class="stats" aria-label="Business statistics">
+            <article class="stat-card stat-primary reveal"><div class="stat-top"><span class="stat-label">Team members</span><span class="stat-icon">♙</span></div><strong id="total-count">—</strong><div class="stat-bottom"><small id="team-caption">Loading roster</small><span class="trend positive">↗ Live</span></div><div class="sparkline spark-purple"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
+            <article class="stat-card reveal"><div class="stat-top"><span class="stat-label">Active today</span><span class="stat-icon cyan">◉</span></div><strong id="active-count">—</strong><div class="stat-bottom"><small>Active employees</small><span class="trend positive">↗ Healthy</span></div><div class="sparkline spark-cyan"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
+            <article class="stat-card reveal"><div class="stat-top"><span class="stat-label">Managers</span><span class="stat-icon green">✦</span></div><strong id="manager-count">—</strong><div class="stat-bottom"><small>Leadership team</small><span class="trend neutral">— Stable</span></div><div class="sparkline spark-green"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
+            <article class="stat-card reveal"><div class="stat-top"><span class="stat-label">Workspace status</span><span class="stat-icon amber">⌁</span></div><strong class="status-value">Live</strong><div class="stat-bottom"><small>Data synced just now</small><span class="trend positive">● Online</span></div><div class="status-line"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></article>
+          </section>
+
+          <section class="dashboard-grid">
+            <article class="panel chart-panel reveal"><div class="panel-heading"><div><p class="eyebrow">Performance</p><h2>Business overview</h2></div><fieldset class="chart-controls"><legend class="visually-hidden">Chart range</legend><button class="selected" type="button">7D</button><button type="button">30D</button><button type="button">90D</button><button type="button">1Y</button></fieldset></div><div class="chart-meta"><strong>Workspace activity</strong><span class="legend"><i class="legend-purple"></i>Active team <i class="legend-cyan"></i>All team</span></div><div class="chart-wrap"><div class="y-axis"><span>100%</span><span>75%</span><span>50%</span><span>25%</span><span>0%</span></div><div class="chart"><div class="grid-lines"><i></i><i></i><i></i><i></i><i></i></div><svg viewBox="0 0 700 250" preserveAspectRatio="none" aria-label="Workspace activity trend"><defs><linearGradient id="area-purple" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#8f8cff" stop-opacity=".28"/><stop offset="1" stop-color="#8f8cff" stop-opacity="0"/></linearGradient></defs><path class="area" d="M0 198 C45 184 62 190 100 168 S155 160 190 175 S245 113 280 133 S330 156 370 104 S420 125 455 94 S520 84 550 102 S610 56 700 67 V250 H0Z"/><path class="line line-purple" d="M0 198 C45 184 62 190 100 168 S155 160 190 175 S245 113 280 133 S330 156 370 104 S420 125 455 94 S520 84 550 102 S610 56 700 67"/><path class="line line-cyan" d="M0 215 C55 206 65 211 105 190 S160 191 198 203 S246 152 284 164 S334 177 372 139 S421 151 459 126 S518 121 554 134 S616 104 700 112"/></svg><div class="x-axis"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div></div></div></article>
+            <aside class="panel insight-panel reveal" aria-label="Team health"><div class="panel-heading"><div><p class="eyebrow">At a glance</p><h2>Team health</h2></div><span class="more">•••</span></div><div class="donut-wrap"><div class="donut"><div><strong id="health-percent">—</strong><small>active</small></div></div></div><div class="health-list"><div><span><i class="dot green-dot"></i>Active</span><strong id="health-active">—</strong></div><div><span><i class="dot amber-dot"></i>Inactive</span><strong id="health-inactive">—</strong></div><div><span><i class="dot purple-dot"></i>Total roster</span><strong id="health-total">—</strong></div></div></aside>
+          </section>
+
+          <section class="lower-grid">
+            <article class="panel roster-panel reveal"><div class="panel-heading"><div><p class="eyebrow">Live roster</p><h2>People at Astraeon</h2></div><a href="../Employee/employee.html">View directory <span>→</span></a></div><div id="roster" class="roster"><p class="muted">Loading employees...</p></div></article>
+            <aside class="panel profile reveal" aria-label="Your account"><div class="profile-head"><div class="avatar large" id="profile-avatar">—</div><div><p class="eyebrow">Your account</p><h2 id="profile-name">Loading...</h2></div></div><dl><div><dt>Email</dt><dd id="profile-email">—</dd></div><div><dt>Role</dt><dd id="profile-role">—</dd></div></dl><div class="profile-foot"><span class="online-dot"></span> Account active <span>•</span> <span id="profile-time">Today</span></div></aside>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script src="../shared/api.js"></script>
+    <script src="dashboard.js"></script>
+  </body>
+</html>

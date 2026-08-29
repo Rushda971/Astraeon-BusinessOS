@@ -36,6 +36,10 @@ const api = async (path = "", options = {}) => {
 };
 
 const redirectToLogin = () => { window.location.href = LOGIN_URL; };
+document.querySelector("#logout").addEventListener("click", async () => {
+  try { if (getToken()) await request("/api/auth/logout", { method: "POST", authenticated: true }); } catch { /* Clear the local session even if the API is unavailable. */ }
+  clearToken(); redirectToLogin();
+});
 const setLoading = (loading) => { elements.loading.hidden = !loading; };
 const showPageError = (message = "") => { elements.pageMessage.textContent = message; elements.pageMessage.hidden = !message; };
 const showToast = (message) => { clearTimeout(toastTimer); elements.toast.textContent = message; elements.toast.hidden = false; toastTimer = setTimeout(() => { elements.toast.hidden = true; }, 3500); };

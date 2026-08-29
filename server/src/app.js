@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import path from "node:path";
@@ -17,10 +18,27 @@ const currentDirectory = path.dirname(fileURLToPath(import.meta.url));
 const frontendDirectory = path.resolve(currentDirectory, "../../client/Frontend");
 const apiRateLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, maxRequests: 120 });
 const authRateLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, maxRequests: 10 });
+const allowedCorsOrigins = (process.env.CORS_ORIGIN || "http://localhost:3000,http://localhost:5000")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 // Security and request parsing middleware shared by every route.
 app.disable("x-powered-by");
 app.use(helmet());
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedCorsOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: "10kb" }));
 app.use("/frontend", express.static(frontendDirectory));
 

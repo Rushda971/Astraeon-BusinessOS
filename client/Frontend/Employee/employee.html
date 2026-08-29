@@ -8,9 +8,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="employee.css" />
+    <link rel="stylesheet" href="../shared/app.css" />
   </head>
   <body>
     <main class="shell">
+      <nav class="app-nav" aria-label="Primary navigation">
+        <a class="brand" href="../Dashboard/dashboard.html">ASTRAEON <span>BUSINESSOS</span></a>
+        <a href="../Dashboard/dashboard.html">Dashboard</a>
+        <a class="active" href="employee.html">Employees</a>
+        <a href="../Inventory/inventory.html">Inventory</a><span>Orders</span><span>Reports</span>
+        <button id="logout" type="button">Sign out</button>
+      </nav>
       <header class="page-header">
         <div>
           <p class="eyebrow">Astraeon / Workforce</p>
@@ -47,7 +55,7 @@
     </main>
 
     <div class="modal-backdrop" id="employee-modal" hidden>
-      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <dialog class="modal" aria-labelledby="modal-title">
         <div class="modal-header"><div><p class="eyebrow" id="modal-kicker">New roster entry</p><h2 id="modal-title">Add employee</h2></div><button class="icon-button" id="close-modal" type="button" aria-label="Close dialog">×</button></div>
         <form id="employee-form" novalidate>
           <div class="form-grid">
@@ -62,17 +70,17 @@
           <p class="form-error" id="form-error" role="alert" hidden></p>
           <div class="modal-actions"><button class="button button-quiet" id="cancel-modal" type="button">Cancel</button><button class="button button-primary" id="save-employee" type="submit">Save employee</button></div>
         </form>
-      </section>
+      </dialog>
     </div>
 
     <div class="modal-backdrop" id="view-modal" hidden>
-      <section class="modal modal-small" role="dialog" aria-modal="true" aria-labelledby="view-title">
+      <dialog class="modal modal-small" aria-labelledby="view-title">
         <div class="modal-header"><div><p class="eyebrow">Team profile</p><h2 id="view-title">Employee details</h2></div><button class="icon-button" data-close-view type="button" aria-label="Close dialog">×</button></div>
         <dl class="employee-details" id="employee-details"></dl>
         <div class="modal-actions"><button class="button button-primary" data-close-view type="button">Close</button></div>
-      </section>
+      </dialog>
     </div>
-    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    <output class="toast" id="toast" aria-live="polite" hidden></output>
     <script src="../shared/api.js"></script>
     <script src="employee.js"></script>
   </body>

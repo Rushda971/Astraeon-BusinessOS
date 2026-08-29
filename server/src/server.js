@@ -1,7 +1,10 @@
 import app from "./app.js";
 import prisma from "./config/prisma.js";
+import { assertJwtConfig } from "./utils/jwt.js";
 
 const port = Number(process.env.PORT) || 5000;
+
+assertJwtConfig();
 
 const server = app.listen(port, () => {
   console.log(`Astraeon Restaurant ERP API listening on port ${port}`);

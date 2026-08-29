@@ -79,13 +79,17 @@ export const login = async (req, res, next) => {
     const { email, password } = validateLoginInput(req.body);
     const user = await prisma.user.findUnique({ where: { email } });
 
-    if (user && !user.emailVerified) {
-      throw new AppError("Email is not verified.", 403);
-    }
-
     // Use the same response for an unknown email and incorrect password.
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new AppError("Invalid email or password.", 401);
+    }
+
+    if (!user.emailVerified) {
+      throw new AppError("Email is not verified.", 403);
+    }
+
+    if (user.status === "INACTIVE") {
+      throw new AppError("This account is inactive.", 403);
     }
 
     const token = generateToken(user);

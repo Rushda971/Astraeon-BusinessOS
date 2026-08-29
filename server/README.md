@@ -1,5 +1,7 @@
 # Astraeon Restaurant ERP — Authentication API
 
+The active backend implementation is under `server/src`. The `server/Backend` directory is a legacy implementation and is not used by the current server scripts.
+
 ## Setup
 
 ```bash

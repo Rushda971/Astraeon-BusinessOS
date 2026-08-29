@@ -28,6 +28,6 @@ export const errorHandler = (error, _req, res, _next) => {
 
   res.status(statusCode).json({
     success: false,
-    message: statusCode >= 500 ? "Internal server error." : message,
+    message: statusCode >= 500 && statusCode !== 503 ? "Internal server error." : message,
   });
 };
