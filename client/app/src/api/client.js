@@ -1,9 +1,15 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 export async function apiRequest(path, options = {}) {
   const { authenticated = false, ...fetchOptions } = options;
   const headers = { Accept: 'application/json', ...fetchOptions.headers };
-  const token = localStorage.getItem('token');
+  const token = (() => {
+    try {
+      return localStorage.getItem('token');
+    } catch {
+      return null;
+    }
+  })();
 
   if (fetchOptions.body && !headers['Content-Type']) {
     headers['Content-Type'] = 'application/json';
@@ -12,7 +18,8 @@ export async function apiRequest(path, options = {}) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, { ...fetchOptions, headers });
+  const url = `${API_BASE_URL}${path}`;
+  const response = await fetch(url, { ...fetchOptions, headers });
   const data = await response.json().catch(() => ({ success: false }));
 
   if (!response.ok || !data.success) {

@@ -1,19 +1,14 @@
 import { motion } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 
-const items = [
-  { label: 'Overview', active: true },
-  { label: 'Sales' },
-  { label: 'Orders' },
-  { label: 'Inventory' },
-  { label: 'Products' },
-  { label: 'Customers' },
-  { label: 'Employees' },
-  { label: 'Reports' },
-  { label: 'Analytics' },
-  { label: 'Settings' },
+const groups = [
+  { label: 'Workspace', items: [['Overview', '/dashboard', '⌂'], ['Sales', '/dashboard', '↗'], ['Orders', '/dashboard', '▣'], ['Inventory', '/inventory', '◇'], ['Menu & products', '/dashboard', '◒']] },
+  { label: 'Management', items: [['Customers', '/dashboard', '◎'], ['Employees', '/employees', '♙'], ['Reports', '/dashboard', '▤'], ['Analytics', '/dashboard', '◔']] },
 ];
 
 export default function Sidebar() {
+  const location = useLocation();
+
   return (
     <motion.aside
       className="sidebar"
@@ -21,25 +16,25 @@ export default function Sidebar() {
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
     >
-      <div className="sidebar__brand">
-        <div className="brand-mark">A</div>
-        <div>
-          <div className="brand-mark__label">ASTRAEON</div>
-          <small>Hospitality OS</small>
-        </div>
-      </div>
+      <Link className="sidebar__brand" to="/dashboard" aria-label="Astraeon dashboard">
+        <span className="brand-mark">✦</span>
+        <span><span className="brand-mark__label">Astraeon</span><small>Restaurant ERP</small></span>
+      </Link>
 
       <nav className="sidebar__nav" aria-label="Sidebar navigation">
-        {items.map((item) => (
-          <button key={item.label} className={`nav-item ${item.active ? 'nav-item--active' : ''}`} type="button">
-            {item.label}
-          </button>
-        ))}
+        {groups.map((group) => <div className="nav-group" key={group.label}>
+          <span className="nav-group__label">{group.label}</span>
+          {group.items.map(([label, path, icon]) => {
+            const active = path === '/dashboard' ? location.pathname === '/dashboard' && label === 'Overview' : location.pathname === path;
+            return <Link key={label} to={path} className={`nav-item ${active ? 'nav-item--active' : ''}`}><span className="nav-item__icon" aria-hidden="true">{icon}</span>{label}</Link>;
+          })}
+        </div>)}
       </nav>
 
       <div className="sidebar__footer">
-        <span>Live operations</span>
-        <strong>98.6%</strong>
+        <span className="sidebar__footer-label">Service uptime</span>
+        <strong><i />98.6%</strong>
+        <small>Everything is running smoothly.</small>
       </div>
     </motion.aside>
   );
