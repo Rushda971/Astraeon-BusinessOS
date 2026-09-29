@@ -2,9 +2,11 @@ import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 
 const groups = [
-  { label: 'Workspace', items: [['Overview', '/dashboard', '⌂'], ['Sales', '/dashboard', '↗'], ['Orders', '/dashboard', '▣'], ['Inventory', '/inventory', '◇'], ['Menu & products', '/dashboard', '◒']] },
-  { label: 'Management', items: [['Customers', '/dashboard', '◎'], ['Employees', '/employees', '♙'], ['Reports', '/dashboard', '▤'], ['Analytics', '/dashboard', '◔']] },
+  { label: 'Workspace', items: [['Overview', '/dashboard', '⌂'], ['Sales', '/sales', '↗'], ['Orders', '/orders', '▣'], ['Inventory', '/inventory', '◇'], ['Menu & products', '/menu', '◒']] },
+  { label: 'Management', items: [['Customers', '/customers', '◎'], ['Employees', '/employees', '♙'], ['Reports', '/reports', '▤'], ['Analytics', '/dashboard', '◔']] },
 ];
+
+groups[0].items.push(['Inventory setup', '/inventory-setup', '⚙']);
 
 export default function Sidebar() {
   const location = useLocation();
@@ -25,8 +27,8 @@ export default function Sidebar() {
         {groups.map((group) => <div className="nav-group" key={group.label}>
           <span className="nav-group__label">{group.label}</span>
           {group.items.map(([label, path, icon]) => {
-            const active = path === '/dashboard' ? location.pathname === '/dashboard' && label === 'Overview' : location.pathname === path;
-            return <Link key={label} to={path} className={`nav-item ${active ? 'nav-item--active' : ''}`}><span className="nav-item__icon" aria-hidden="true">{icon}</span>{label}</Link>;
+            const active = location.pathname === path && (path !== '/dashboard' || label === 'Overview');
+            return <Link key={label} to={path} aria-current={active ? 'page' : undefined} className={`nav-item ${active ? 'nav-item--active' : ''}`}><span className="nav-item__icon" aria-hidden="true">{icon}</span>{label}</Link>;
           })}
         </div>)}
       </nav>

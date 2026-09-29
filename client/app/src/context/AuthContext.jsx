@@ -1,27 +1,35 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { apiRequest, clearToken, getToken } from '../api/client';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [token, setTokenState] = useState(() => localStorage.getItem('token'));
+  const [loading, setLoading] = useState(true);
 
-  const setToken = useCallback((newToken) => {
-    if (newToken) {
-      localStorage.setItem('token', newToken);
-    } else {
-      localStorage.removeItem('token');
+  useEffect(() => {
+    let active = true;
+    if (!getToken()) {
+      clearToken();
+      setLoading(false);
+      return () => { active = false; };
     }
-    setTokenState(newToken);
+
+    apiRequest('/api/auth/profile', { authenticated: true })
+      .then((response) => { if (active) setUser(response.data.user); })
+      .catch(() => { if (active) setUser(null); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
   }, []);
 
   const logout = useCallback(() => {
-    setToken(null);
+    apiRequest('/api/auth/logout', { method: 'POST', authenticated: true }).catch(() => undefined);
+    clearToken();
     setUser(null);
-  }, [setToken]);
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, token, setToken, logout }}>
+    <AuthContext.Provider value={{ user, setUser, loading, isAuthenticated: Boolean(user), logout }}>
       {children}
     </AuthContext.Provider>
   );

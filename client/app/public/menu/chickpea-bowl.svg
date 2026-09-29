@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-labelledby="title">
+  <title id="title">Golden chickpea bowl with herbs</title>
+  <defs>
+    <linearGradient id="bg" x2="0" y2="1"><stop stop-color="#f7e6c8"/><stop offset="1" stop-color="#edd3ab"/></linearGradient>
+    <linearGradient id="bowl" x2="0" y2="1"><stop stop-color="#fffaf0"/><stop offset="1" stop-color="#dfc8a9"/></linearGradient>
+    <radialGradient id="food"><stop stop-color="#f3cb74"/><stop offset="1" stop-color="#c78736"/></radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <circle cx="100" cy="75" r="88" fill="#fff" opacity=".18"/><circle cx="720" cy="430" r="150" fill="#fff" opacity=".15"/>
+  <ellipse cx="400" cy="394" rx="235" ry="38" fill="#94714d" opacity=".16"/>
+  <path d="M163 226h474c-15 139-98 208-237 208s-222-69-237-208Z" fill="url(#bowl)" stroke="#c9ad87" stroke-width="8"/>
+  <ellipse cx="400" cy="226" rx="238" ry="78" fill="#e9d9c0" stroke="#c9ad87" stroke-width="8"/>
+  <ellipse cx="400" cy="218" rx="208" ry="57" fill="#f2e8d6"/>
+  <ellipse cx="400" cy="217" rx="180" ry="43" fill="url(#food)"/>
+  <g fill="#dfa94f"><circle cx="273" cy="212" r="18"/><circle cx="328" cy="192" r="17"/><circle cx="374" cy="225" r="19"/><circle cx="433" cy="198" r="18"/><circle cx="483" cy="224" r="17"/><circle cx="531" cy="202" r="16"/><circle cx="302" cy="239" r="14"/><circle cx="458" cy="240" r="14"/></g>
+  <g fill="#698353"><ellipse cx="352" cy="183" rx="13" ry="6" transform="rotate(-28 352 183)"/><ellipse cx="412" cy="185" rx="15" ry="7" transform="rotate(24 412 185)"/><ellipse cx="505" cy="188" rx="14" ry="6" transform="rotate(-18 505 188)"/><ellipse cx="392" cy="243" rx="13" ry="6" transform="rotate(28 392 243)"/></g>
+  <path d="M217 274c18 89 80 136 180 145" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" opacity=".45"/>
+</svg>

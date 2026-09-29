@@ -18,6 +18,14 @@ enum Role {
 enum EmployeeStatus {
   ACTIVE
   INACTIVE
+  ON_LEAVE
+}
+
+enum EmploymentType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERN
 }
 
 enum AccountStatus {
@@ -25,12 +33,46 @@ enum AccountStatus {
   INACTIVE
 }
 
+enum InventoryStatus {
+  IN_STOCK
+  LOW_STOCK
+  OUT_OF_STOCK
+}
+
+enum StockMovementType {
+  IN
+  OUT
+  ADJUSTMENT
+  WASTE
+}
+
+enum SaleStatus {
+  COMPLETED
+  PENDING
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PAID
+  PENDING
+  PARTIAL
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  READY
+  COMPLETED
+  CANCELLED
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   fullName  String
   email     String   @unique
   password  String
-  role      Role     @default(OWNER)
+  role      Role     @default(STAFF)
   emailVerified Boolean @default(false)
   verificationOtpHash String?
   verificationOtpExpiresAt DateTime?
@@ -42,20 +84,283 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  stockMovements StockMovement[] @relation("StockMovementUser")
+  stockAdjustments StockAdjustment[] @relation("StockAdjustmentUser")
+  wasteRecords WasteRecord[] @relation("WasteRecordUser")
+  sales        Sale[]
+  orders       Order[]
+
   @@map("users")
 }
 
 model Employee {
-  id          Int            @id @default(autoincrement())
-  name        String
-  email       String         @unique
-  phone       String
-  role        String
-  salary      Float
-  joiningDate DateTime
-  status      EmployeeStatus @default(ACTIVE)
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  id                       Int            @id @default(autoincrement())
+  employeeCode             String         @unique
+  firstName                String
+  lastName                 String
+  email                    String         @unique
+  phone                    String
+  dateOfBirth              DateTime?
+  address                  String?
+  department               String
+  designation              String
+  employmentType           EmploymentType @default(FULL_TIME)
+  joiningDate              DateTime
+  salary                   Float
+  status                   EmployeeStatus @default(ACTIVE)
+  profileImage             String?
+  emergencyContactName     String?
+  emergencyContactRelation String?
+  emergencyContactPhone    String?
+  createdAt                DateTime       @default(now())
+  updatedAt                DateTime       @updatedAt
+
+  @@index([department])
+  @@index([status])
+  @@index([joiningDate])
 
   @@map("employees")
+}
+
+model InventoryCategory {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  slug      String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items     InventoryItem[]
+
+  @@map("inventory_categories")
+}
+
+model Supplier {
+  id            Int      @id @default(autoincrement())
+  name          String
+  contactPerson String?
+  phone         String?
+  email         String?
+  address       String?
+  notes         String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  items          InventoryItem[]
+  stockMovements StockMovement[]
+
+  @@map("suppliers")
+}
+
+model InventoryItem {
+  id            Int             @id @default(autoincrement())
+  name          String
+  sku           String          @unique
+  unit          String
+  currentStock  Float           @default(0)
+  minimumStock  Float           @default(0)
+  maximumStock  Float?
+  reorderLevel  Float?
+  costPerUnit   Float?
+  sellingPrice  Float?
+  status        InventoryStatus @default(IN_STOCK)
+  categoryId    Int
+  supplierId    Int?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  category       InventoryCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  supplier       Supplier?         @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  movements      StockMovement[]
+  stockAdjustments StockAdjustment[]
+  wasteRecords   WasteRecord[]
+  saleItems     SaleItem[]
+  orderItems    OrderItem[]
+
+  @@index([categoryId])
+  @@index([supplierId])
+  @@index([status])
+  @@map("inventory_items")
+}
+
+model Sale {
+  id            Int           @id @default(autoincrement())
+  saleNumber    String        @unique
+  customerName  String?
+  customerEmail String?
+  status        SaleStatus    @default(COMPLETED)
+  paymentStatus PaymentStatus @default(PAID)
+  subtotal      Float
+  discount      Float         @default(0)
+  tax           Float         @default(0)
+  totalAmount   Float
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  userId        Int
+
+  user  User       @relation(fields: [userId], references: [id], onDelete: Restrict)
+  items SaleItem[]
+  order Order?
+
+  @@index([createdAt])
+  @@index([status])
+  @@index([paymentStatus])
+  @@map("sales")
+}
+
+model Order {
+  id            Int         @id @default(autoincrement())
+  orderNumber   String      @unique
+  customerName  String?
+  customerEmail String?
+  status        OrderStatus @default(PENDING)
+  subtotal      Float
+  discount      Float       @default(0)
+  tax           Float       @default(0)
+  totalAmount   Float
+  notes         String?
+  saleId        Int?        @unique
+  userId        Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  user  User       @relation(fields: [userId], references: [id], onDelete: Restrict)
+  sale  Sale?      @relation(fields: [saleId], references: [id], onDelete: SetNull)
+  items OrderItem[]
+
+  @@index([createdAt])
+  @@index([status])
+  @@index([userId])
+  @@map("orders")
+}
+
+model OrderItem {
+  id              Int           @id @default(autoincrement())
+  orderId         Int
+  inventoryItemId Int
+  quantity        Float
+  unitPrice       Float
+  totalPrice      Float
+
+  order         Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+  @@index([inventoryItemId])
+  @@map("order_items")
+}
+
+model SaleItem {
+  id              Int           @id @default(autoincrement())
+  saleId          Int
+  inventoryItemId Int
+  quantity        Float
+  unitPrice       Float
+  totalPrice      Float
+
+  sale          Sale          @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  inventoryItem InventoryItem @relation(fields: [inventoryItemId], references: [id], onDelete: Restrict)
+
+  @@index([saleId])
+  @@index([inventoryItemId])
+  @@map("sale_items")
+}
+
+model StockMovement {
+  id            Int               @id @default(autoincrement())
+  itemId        Int
+  userId        Int
+  supplierId    Int?
+  type          StockMovementType
+  quantity      Float
+  previousStock Float
+  newStock      Float
+  unitCost      Float?
+  reason        String
+  notes         String?
+  createdAt     DateTime          @default(now())
+
+  item     InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  user     User          @relation("StockMovementUser", fields: [userId], references: [id], onDelete: Restrict)
+  supplier Supplier?    @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+
+  @@index([itemId, createdAt])
+  @@index([userId])
+  @@index([type])
+  @@index([reason])
+  @@map("stock_movements")
+}
+
+model StockAdjustment {
+  id               Int      @id @default(autoincrement())
+  itemId           Int
+  userId           Int
+  previousStock    Float
+  newStock         Float
+  adjustmentAmount Float
+  reason           String
+  notes            String?
+  createdAt        DateTime @default(now())
+
+  item InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  user User          @relation("StockAdjustmentUser", fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([itemId, createdAt])
+  @@index([userId])
+  @@map("stock_adjustments")
+}
+
+model WasteRecord {
+  id            Int      @id @default(autoincrement())
+  itemId        Int
+  userId        Int
+  quantity      Float
+  reason        String
+  estimatedCost Float?
+  notes         String?
+  createdAt     DateTime @default(now())
+
+  item InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  user User          @relation("WasteRecordUser", fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([itemId, createdAt])
+  @@index([userId])
+  @@map("waste_records")
+}
+
+model MenuCategory {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique
+  description String?
+  imageUrl    String?
+  isActive    Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  products MenuProduct[]
+
+  @@index([isActive])
+  @@map("menu_categories")
+}
+
+model MenuProduct {
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String?
+  price       Float
+  imageUrl    String?
+  isAvailable Boolean      @default(true)
+  isActive    Boolean      @default(true)
+  categoryId  Int
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  category MenuCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  @@index([categoryId])
+  @@index([isAvailable])
+  @@index([isActive])
+  @@index([name])
+  @@map("menu_products")
 }

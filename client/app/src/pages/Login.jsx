@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
-import { apiRequest } from '../api/client';
+import { apiRequest, setToken } from '../api/client';
 import BrandPanel from '../components/BrandPanel';
 
 export default function Login() {
@@ -11,7 +11,7 @@ export default function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
-  const { setToken, setUser } = useAuth();
+  const { setUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -38,8 +38,8 @@ export default function Login() {
     <div className="auth-page-shell">
       <BrandPanel
         eyebrow="ASTRAEON"
-        title="One intelligent workspace for your entire business."
-        description="From reservations to inventory, teams, and performance — everything moves with the same premium rhythm."
+        title="A better way to run every service."
+        description="Bring your team, menu, and daily operations together in one clear workspace."
       />
 
       <motion.section

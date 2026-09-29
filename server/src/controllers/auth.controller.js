@@ -15,6 +15,13 @@ import {
 } from "../utils/validation.js";
 
 const PASSWORD_SALT_ROUNDS = 12;
+const sessionCookieOptions = {
+  httpOnly: true,
+  sameSite: "lax",
+  secure: process.env.NODE_ENV === "production",
+  path: "/",
+  maxAge: Number(process.env.JWT_COOKIE_MAX_AGE_MS) || 7 * 24 * 60 * 60 * 1000,
+};
 
 // Shared selection guarantees password hashes never leave the server.
 const publicUserFields = {
@@ -54,7 +61,8 @@ export const register = async (req, res, next) => {
 
     const hashedPassword = await bcrypt.hash(password, PASSWORD_SALT_ROUNDS);
     const user = await prisma.user.create({
-      data: { fullName, email, password: hashedPassword },
+      // Never rely on a database default for a public registration role.
+      data: { fullName, email, password: hashedPassword, role: "STAFF" },
       select: publicUserFields,
     });
 
@@ -96,10 +104,14 @@ export const login = async (req, res, next) => {
     const safeUser = { ...user };
     delete safeUser.password;
 
+    // The React client authenticates every protected API request with this JWT.
+    // Remove legacy cookie sessions so a stale cookie cannot interfere with the
+    // freshly issued bearer token after a JWT secret rotation.
+    res.clearCookie("astraeon_session", { ...sessionCookieOptions, maxAge: undefined });
     return res.status(200).json({
       success: true,
       message: "Login successful.",
-      data: { user: safeUser, token },
+      data: { token, user: safeUser },
     });
   } catch (error) {
     return next(error);
@@ -181,9 +193,10 @@ export const getProfile = async (req, res, next) => {
 
 export const logout = async (req, res, next) => {
   try {
+    res.clearCookie("astraeon_session", { ...sessionCookieOptions, maxAge: undefined });
     return res.status(200).json({
       success: true,
-      message: "Logout successful. Remove the token from the client.",
+      message: "Logout successful.",
     });
   } catch (error) {
     return next(error);

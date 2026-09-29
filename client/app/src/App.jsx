@@ -7,6 +7,12 @@ import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import InventoryPage from './pages/Inventory';
 import Employees from './pages/Employees';
+import Reports from './pages/Reports';
+import Sales from './pages/Sales';
+import Orders from './pages/Orders';
+import MenuProducts from './pages/MenuProducts';
+import InventorySetup from './pages/InventorySetup';
+import Customers from './pages/Customers';
 
 export default function App() {
   return (
@@ -40,6 +46,19 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/customers" element={<ProtectedRoute><Customers /></ProtectedRoute>} />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute>
+                <Reports />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/sales" element={<ProtectedRoute><Sales /></ProtectedRoute>} />
+          <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+          <Route path="/inventory-setup" element={<ProtectedRoute><InventorySetup /></ProtectedRoute>} />
+          <Route path="/menu" element={<ProtectedRoute><MenuProducts /></ProtectedRoute>} />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </AuthProvider>

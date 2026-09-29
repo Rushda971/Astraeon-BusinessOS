@@ -1,8 +1,17 @@
+# Dependencies
 node_modules/
 
+# Local configuration and credentials
 .env
 .env.*
 !.env.example
+
+# Build output and caches
+dist/
+build/
+.vite/
+.cache/
+coverage/
 
 # Local databases
 *.db
@@ -12,5 +21,24 @@ node_modules/
 *.db-wal
 *.db-shm
 
-# Logs
+# Logs and temporary files
 *.log
+*.tmp
+tmp-blackbook.txt
+
+# Generated documents, screenshots, and other local output
+/output/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# IDE settings (keep the shared Prisma extension setting)
+.idea/
+.vscode/*
+!.vscode/settings.json
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini

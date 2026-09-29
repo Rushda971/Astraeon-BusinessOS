@@ -1,0 +1,182 @@
+/* Astraeon product system: the final shared layer for every active surface. */
+:root {
+  --ink: #26211d;
+  --muted: #756960;
+  --canvas: #f7f3ee;
+  --surface: #fffdf9;
+  --surface-subtle: #fbf7f1;
+  --border: #eadfd4;
+  --accent: #c83c31;
+  --accent-strong: #a92c23;
+  --success: #287445;
+  --warning: #af6819;
+  --danger: #b6372d;
+  --radius-panel: 18px;
+  --radius-control: 10px;
+  --shadow-panel: 0 10px 30px rgba(65, 42, 26, .06);
+  --shadow-raised: 0 18px 48px rgba(65, 42, 26, .12);
+  --line: var(--border);
+  --text: var(--ink);
+  --text-soft: var(--muted);
+}
+
+body { background: var(--canvas); color: var(--ink); }
+button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid rgba(200, 60, 49, .25);
+  outline-offset: 2px;
+}
+button:disabled { cursor: not-allowed; opacity: .58; transform: none !important; }
+
+/* Clear action hierarchy and a consistent, accessible form treatment. */
+.primary-button, .secondary-button, .danger-button {
+  min-height: 42px;
+  border-radius: var(--radius-control);
+  font-size: .82rem;
+  font-weight: 700;
+  transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.primary-button { background: var(--accent); box-shadow: 0 8px 18px rgba(181, 49, 39, .18); }
+.primary-button:hover:not(:disabled) { background: var(--accent-strong); box-shadow: 0 11px 22px rgba(181, 49, 39, .24); }
+.secondary-button { border-color: var(--border); background: var(--surface); color: #4d4037; }
+.secondary-button:hover:not(:disabled) { border-color: #d3bdae; background: #fff8f1; }
+.danger-button { background: var(--danger); }
+
+.auth-form input, .employee-form-grid input, .employee-form-grid select, .inventory-form-grid input, .inventory-form-grid select, .inventory-form-grid textarea,
+.menu-form input, .menu-form textarea, .menu-form select, .category-panel input, .orders-toolbar input, .orders-toolbar select, .orders-create input,
+.orders-create textarea, .sales-toolbar input, .sales-toolbar select, .sales-pos input, .sales-cart select, .report-workspace select {
+  min-height: 42px;
+  border-color: var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--ink);
+}
+.auth-form input:focus, .employee-form-grid input:focus, .employee-form-grid select:focus, .inventory-form-grid input:focus, .inventory-form-grid select:focus,
+.inventory-form-grid textarea:focus, .menu-form input:focus, .menu-form textarea:focus, .menu-form select:focus, .orders-toolbar input:focus,
+.orders-toolbar select:focus, .orders-create input:focus, .orders-create textarea:focus, .sales-toolbar input:focus, .sales-toolbar select:focus {
+  border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200, 60, 49, .12); outline: 0;
+}
+.form-message { border-radius: var(--radius-control); box-shadow: none; }
+
+/* One page frame and typographic scan path for operational modules. */
+:is(.inventory-page, .employees-page, .menu-page, .orders-page, .sales-page, .reports-page) {
+  min-width: 0;
+  padding: 32px;
+  background: var(--canvas);
+}
+:is(.employees-header, .menu-header, .orders-header, .sales-header, .reports-header) h1,
+.inventory-header h1 {
+  color: var(--ink);
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(2.45rem, 4.1vw, 4rem);
+  font-weight: 400;
+  line-height: .97;
+  letter-spacing: -.055em;
+}
+:is(.employees-header, .menu-header, .orders-header, .sales-header, .reports-header) p, .inventory-header p { color: var(--muted); }
+:is(.employees-header, .menu-header, .orders-header, .sales-header, .reports-header) h1 em, .inventory-header h1 em { color: var(--accent); }
+
+/* Shared information surfaces; hierarchy comes from content, not decoration. */
+:is(.employee-kpi, .menu-kpis article, .orders-kpis article, .sales-kpis article, .reports-metrics article, .kpi-card, .metric-card,
+.employee-directory, .menu-browser, .orders-table-panel, .sales-table-panel, .sales-chart-panel, .report-workspace, .report-card,
+.dashboard-panel, .inventory-panel, .inventory-table-panel) {
+  border-color: var(--border);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+  box-shadow: var(--shadow-panel);
+}
+:is(.employee-kpi, .menu-kpis article, .orders-kpis article, .sales-kpis article, .reports-metrics article, .kpi-card, .metric-card) {
+  min-height: 126px;
+}
+:is(.employee-kpi, .menu-kpis article, .orders-kpis article, .sales-kpis article, .reports-metrics article, .kpi-card, .metric-card) strong {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.dashboard-panel, .inventory-panel, .inventory-table-panel { box-shadow: var(--shadow-panel); }
+
+/* Dense data stays legible with a single table, toolbar, and badge language. */
+:is(.employee-table, .inventory-table, .orders-table, .sales-table, .report-table) thead th {
+  background: var(--surface-subtle);
+  color: #8b7a6c;
+  font-size: .65rem;
+  letter-spacing: .08em;
+}
+:is(.employee-table, .inventory-table, .orders-table, .sales-table, .report-table) tbody tr { transition: background .16s ease; }
+:is(.employee-table, .inventory-table, .orders-table, .sales-table, .report-table) tbody tr:hover { background: #fff8f1; }
+:is(.employee-table, .inventory-table, .orders-table, .sales-table, .report-table) td { border-color: #f0e7de; }
+:is(.employee-toolbar, .inventory-toolbar, .menu-tools, .orders-toolbar, .sales-toolbar) {
+  gap: 10px;
+}
+:is(.employee-toolbar select, .employee-search, .menu-tools input, .menu-tools select, .orders-toolbar input, .orders-toolbar select, .sales-toolbar input, .sales-toolbar select) {
+  min-height: 40px;
+  border-color: var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+}
+:is(.employee-status, .order-status, .report-type, .product-image b, .product-detail > .menu-availability) { border-radius: 999px; }
+
+/* Panels, drawers, and empty states use the same calm elevation. */
+:is(.employee-form-panel, .employee-profile-panel, .inventory-drawer, .inventory-detail-panel, .inventory-operation-panel, .inventory-movement-panel,
+.inventory-confirm, .menu-form, .product-detail, .category-panel, .orders-create, .order-detail, .order-confirm, .sales-create, .sales-detail) {
+  border-color: var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow-raised);
+}
+:is(.employee-overlay, .inventory-overlay, .menu-overlay, .orders-overlay, .sales-overlay) { background: rgba(45, 31, 20, .38); }
+:is(.employee-table__empty, .inventory-table__empty, .menu-empty, .report-empty) { color: var(--muted); }
+
+/* Navigation becomes a calm, persistent product rail rather than another card. */
+.sidebar { background: #fffaf5; border-right-color: var(--border); }
+.sidebar__brand { border-bottom-color: var(--border); }
+.nav-group__label { color: #9b8879; font-size: .64rem; font-weight: 800; letter-spacing: .12em; }
+.nav-item { border-radius: var(--radius-control); }
+.nav-item--active { color: var(--accent); background: #fff0ec; box-shadow: inset 3px 0 0 var(--accent); }
+.nav-item:hover { color: #4d4037; background: #f8eee5; transform: none; }
+.sidebar__footer { border-radius: var(--radius-control); background: var(--surface-subtle); }
+
+/* Mobile preserves task order and touch targets. */
+@media (max-width: 900px) {
+  :is(.inventory-page, .employees-page, .menu-page, .orders-page, .sales-page, .reports-page) { padding: 24px 20px 32px; }
+}
+@media (max-width: 620px) {
+  :is(.inventory-page, .employees-page, .menu-page, .orders-page, .sales-page, .reports-page) { padding: 20px 14px 28px; }
+  :is(.employees-header, .menu-header, .orders-header, .sales-header, .reports-header) h1, .inventory-header h1 { font-size: 2.55rem; }
+  .primary-button, .secondary-button, .danger-button { min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* Preserve the footer contrast after the shared design layer is loaded. */
+.sidebar__footer { background: linear-gradient(145deg, #345d31, #7a8d44); color: #f6f8e6; }
+.sidebar__footer-label, .sidebar__footer small { color: rgba(255,255,255,.78); }
+.sidebar__footer strong { color: #fff; }
+@media (max-width: 900px) { .dashboard-shell { width: 100%; min-width: 0; overflow-x: clip; } .dashboard, .customers-page { min-width: 0; max-width: 100%; } }
+
+/* Keep the active report and dashboard states exclusive and understated. */
+.nav-item--active, .nav-item--active:hover { color: #493e35; background: #f1e8dd; box-shadow: inset 3px 0 0 #ae805a; }
+.nav-item--active .nav-item__icon { color: #7e5a3e; }
+.nav-item:hover { color: #493e35; background: #f8f2eb; }
+
+/* Align menu product cards and let the demo dish artwork lead the card. */
+.menu-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 20px; }
+.menu-header > div:first-child { display: block; min-width: 0; flex: 1 1 290px; }
+.menu-header > div:first-child p { max-width: 52ch; }
+.menu-header > div:last-child { justify-content: flex-end; flex-wrap: wrap; }
+.menu-kpis { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.product-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 245px), 1fr)); align-items: stretch; gap: 20px; }
+.product-card { display: flex; min-width: 0; flex-direction: column; overflow: hidden; border-color: var(--border); border-radius: 20px; background: var(--surface); box-shadow: var(--shadow-panel); transition: transform .2s ease, box-shadow .2s ease; }
+.product-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-raised); }
+.product-image { height: 190px; overflow: hidden; background: linear-gradient(145deg, #f5e7d5, #ead4ba); }
+.product-image img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+.product-card:hover .product-image img { transform: scale(1.035); }
+.product-card > div:last-child { display: flex; flex: 1; flex-direction: column; min-width: 0; }
+.product-card h2 { line-height: 1.2; }
+.product-card p { display: -webkit-box; flex: 1; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.product-card footer { margin-top: auto; padding-top: 14px; }
+@media (max-width: 620px) {
+  .menu-header { display: flex; align-items: flex-start; flex-direction: column; gap: 16px; }
+  .menu-header > div:first-child, .menu-header > div:last-child { flex: 0 1 auto; }
+  .menu-header > div:last-child { width: 100%; justify-content: flex-start; }
+  .product-grid { grid-template-columns: minmax(0, 1fr); }
+}

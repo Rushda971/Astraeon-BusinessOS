@@ -12,6 +12,18 @@ const withQuery = (params = {}) => {
 };
 
 export const inventoryApi = {
+  getCategories() {
+    return apiRequest('/api/inventory/categories', { authenticated: true });
+  },
+  createCategory(data) {
+    return apiRequest('/api/inventory/categories', { method: 'POST', authenticated: true, body: JSON.stringify(data) });
+  },
+  getSuppliers() {
+    return apiRequest('/api/inventory/suppliers', { authenticated: true });
+  },
+  createSupplier(data) {
+    return apiRequest('/api/inventory/suppliers', { method: 'POST', authenticated: true, body: JSON.stringify(data) });
+  },
   getInventory(params = {}) {
     return apiRequest(`/api/inventory${withQuery(params)}`, { authenticated: true });
   },

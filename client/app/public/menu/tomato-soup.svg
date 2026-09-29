@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-labelledby="title">
+  <title id="title">Tomato soup with basil</title>
+  <defs>
+    <linearGradient id="bg" x2="0" y2="1"><stop stop-color="#f8e1d2"/><stop offset="1" stop-color="#edc2a9"/></linearGradient>
+    <linearGradient id="bowl" x2="0" y2="1"><stop stop-color="#fffaf2"/><stop offset="1" stop-color="#e5cdb4"/></linearGradient>
+    <radialGradient id="soup"><stop stop-color="#f2764b"/><stop offset="1" stop-color="#ba3b2c"/></radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <circle cx="710" cy="80" r="118" fill="#fff" opacity=".18"/><circle cx="110" cy="425" r="145" fill="#fff" opacity=".14"/>
+  <ellipse cx="400" cy="396" rx="225" ry="36" fill="#89563f" opacity=".16"/>
+  <path d="M177 220h446c-10 133-86 204-223 204s-213-71-223-204Z" fill="url(#bowl)" stroke="#c8a88d" stroke-width="8"/>
+  <ellipse cx="400" cy="222" rx="226" ry="76" fill="#f1e5d7" stroke="#c8a88d" stroke-width="8"/>
+  <ellipse cx="400" cy="215" rx="193" ry="52" fill="url(#soup)"/>
+  <path d="M315 207c43-30 117-29 166 2" fill="none" stroke="#ffd7a5" stroke-width="12" stroke-linecap="round" opacity=".82"/>
+  <path d="M371 233c20-19 40-22 58-9-9 26-28 37-58 28-12-5-12-12 0-19Z" fill="#6f8c50"/>
+  <path d="M407 238c3-14 10-26 23-35" fill="none" stroke="#e7efcf" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="293" cy="217" r="5" fill="#f8d28c"/><circle cx="505" cy="224" r="5" fill="#f8d28c"/><circle cx="458" cy="185" r="4" fill="#f8d28c"/>
+  <path d="M226 275c18 76 71 124 157 142" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" opacity=".45"/>
+</svg>

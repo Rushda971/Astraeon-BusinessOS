@@ -2,6 +2,12 @@
   "name": "astraeon-businessos",
   "private": true,
   "scripts": {
-    "dev": "npm --prefix server run dev"
+    "dev": "concurrently --kill-others-on-fail --names backend,frontend --prefix-colors blue,green \"npm --prefix server run dev\" \"npm --prefix client/app run dev\"",
+    "db:generate": "npm --prefix server run prisma:generate",
+    "db:migrate": "npm --prefix server run prisma:migrate",
+    "db:seed": "npm --prefix server run prisma:seed"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }
