@@ -18,8 +18,8 @@ export function clearToken() {
 }
 
 function redirectToLogin() {
-  if (typeof window === 'undefined' || window.location.pathname === '/login') return;
-  window.location.replace('/login');
+  if (typeof window === 'undefined' || window.location.hash.startsWith('#/login')) return;
+  window.location.hash = '/login';
 }
 
 export async function apiRequest(path, options = {}) {

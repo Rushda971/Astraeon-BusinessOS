@@ -100,6 +100,12 @@ npm run dev
 
 The frontend is available at `http://localhost:3000`; the API listens at `http://localhost:5000`. Alternatively, run `npm run dev --prefix server` and `npm run dev --prefix client/app` in separate terminals. Build the frontend with `npm run build --prefix client/app`.
 
+## GitHub Pages deployment
+
+The `Deploy website to GitHub Pages` workflow builds the React app from `client/app/` and publishes its `dist/` directory. After the workflow succeeds, the project site is available at `https://rushda971.github.io/Astraeon-BusinessOS/`. The frontend uses hash-based routes so links and refreshes work on static hosting.
+
+GitHub Pages hosts static files only; it does not run this repository's Express API or SQLite database. The login and data-backed modules therefore need a separately deployed API. Set the repository Actions variable `VITE_API_BASE_URL` to that API's HTTPS origin to connect the deployed frontend. The API must allow requests from the Pages site through its CORS configuration.
+
 ## API overview
 
 Routes are mounted under `/api`:
