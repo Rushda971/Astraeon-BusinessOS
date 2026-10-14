@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import BrandMark from './BrandMark';
 
 export default function BrandPanel({ eyebrow, title, description }) {
   return (
@@ -11,6 +12,7 @@ export default function BrandPanel({ eyebrow, title, description }) {
       <div className="brand-panel__image" />
       <div className="brand-panel__overlay" />
       <div className="brand-panel__content">
+        <div className="brand-panel__identity"><BrandMark /><span>Astraeon<small>RESTAURANT ERP</small></span></div>
         <span className="brand-panel__eyebrow">{eyebrow}</span>
         <h1>{title}</h1>
         <p>{description}</p>
